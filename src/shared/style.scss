@@ -1,0 +1,131 @@
+@font-face {
+  font-family: 'cardc-fontfamily';
+  src: local('cardc-fontfamily'),
+    url(../assets/fonts/CARDC___.TTF) format('truetype');
+}
+
+* {
+    font-family: 'cardc-fontfamily';
+    font-weight: 500;
+}
+
+.card_container {
+  width: auto;
+  border: 3px solid;
+  border-radius: 10px;
+  background-color: white;
+  position: absolute;
+}
+
+.icon_top {
+  width: 1rem;
+  height: 1rem;
+  position: relative;
+  z-index: 1;
+  padding: 5px;
+  text-align: center;
+}
+
+.icon_center {
+  width: 2rem;
+  height: 2rem;
+  margin: 0 auto;
+  position: relative;
+  top: 25%;
+  z-index: 1;
+}
+
+.icon_bottom {
+  width: 1rem;
+  height: 1rem;
+  position: relative;
+  z-index: 1;
+  top: 43%;
+  padding: 5px;
+  float: right;
+  transform: rotate(180deg);
+  text-align: center;
+}
+
+.card_symbol_color {
+  color: #d40000;
+}
+
+.icons_cards_container {
+  margin: 0 auto;
+  position: absolute;
+  bottom: 38vh;
+  .Q {
+    transform: rotate(331deg);
+    left: 70px;
+  }
+
+  .A {
+    transform: rotate(347deg);
+    left: 100px;
+  }
+
+  .K {
+    transform: rotate(13deg);
+    left: 170px;
+  }
+
+  .num {
+    transform: rotate(1deg);
+    left: 135px;
+  }
+}
+
+//=====XS=====
+
+.card_container_xs {
+  width: 5vh;
+  height: 10vh;
+  border: 1px solid;
+  border-radius: 3px;
+  background-color: white;
+  position: absolute;
+}
+
+.icon_top_xs {
+  display: grid;
+  width: 1.5vh;
+  height: 1.5vh;
+  position: relative;
+  z-index: 1;
+  padding: 1px;
+  align-content: space-around;
+  justify-items: center;
+  justify-content: start;
+  align-items: start;
+}
+
+.icon_center_xs {
+  width: 3vh;
+  height: 3vh;
+  margin: 0 auto;
+  position: relative;
+  top: 1.8vh;
+  z-index: 1;
+}
+
+.icon_bottom_xs {
+  display: grid;
+  width: 1.5vh;
+  height: 1.5vh;
+  position: relative;
+  z-index: 1;
+  top: 3.5vh;
+  float: right;
+  transform: rotate(180deg);
+  justify-items: center;
+  align-items: start;
+  justify-content: space-around;
+  align-content: center;
+}
+
+.card_symbol_xs {
+  font-size: 9px;
+  font-weight: 500;
+  font-family: 'cardc-fontfamily';
+}

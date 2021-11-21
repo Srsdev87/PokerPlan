@@ -1,0 +1,9 @@
+{
+  "environment": "dev",
+  "prod": {
+      "apiUrl": "https://localhost:85/"
+  },
+  "dev": {
+    "apiUrl": "https://localhost:44370/"
+  }
+}
