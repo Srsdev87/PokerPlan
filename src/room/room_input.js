@@ -2,13 +2,11 @@ import React, { useEffect, useState } from 'react'
 import { useContext } from '../context/room_connection_context'
 import useAuth from '../router/auth'
 import './room.scss'
-
 import TextField from '@mui/material/TextField'
 import Card from '@mui/material/Card'
 import CardActions from '@mui/material/CardActions'
 import CardContent from '@mui/material/CardContent'
 import Button from '@mui/material/Button'
-
 import { useNavigate } from 'react-router-dom'
 
 const RoomInput = (props) => {

@@ -1,17 +1,142 @@
 .textfield {
-    width: 100%
+  width: 100%;
 }
 
 .spacer {
-    margin-top: 20px;
+  margin-top: 20px;
 }
 
 .center {
-    display: flex;
-    justify-content: center;
+  display: flex;
+  justify-content: center;
 }
 
 .card_outer_border {
-    box-shadow: 1px 1px 6px #000;
+  box-shadow: 1px 1px 6px #000;
 }
 
+.room_container_main {
+  display: flex;
+  flex-direction: column;
+  flex-wrap: nowrap;
+  align-content: center;
+  justify-content: center;
+}
+
+.message_container {
+  width: 40vh;
+  max-height: 80vh;
+  background-color: #f8f9fa;
+  margin: 10px;
+  padding: 10px;
+  border: 1px solid #888888;
+  border-radius: 5px;
+}
+
+.message_input {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  align-content: center;
+  align-items: center;
+  justify-content: space-around;
+}
+
+.chat_container {
+  max-height: 67vh;
+  overflow: hidden;
+  scroll-behavior: smooth;
+  display: flex;
+  flex-direction: column-reverse;
+  margin-top: 10px;
+}
+
+.chat_container:hover {
+  overflow-y: scroll;
+}
+
+.chat_message_container_self {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  justify-content: space-between;
+  align-items: stretch;
+}
+
+.chat_message_container_team {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  justify-content: space-between;
+  align-items: stretch;
+  flex-direction: row-reverse;
+}
+
+.chat_message_self {
+  display: flex;
+  width: 100%;
+  border-radius: 5px;
+  border-top-left-radius: 0px;
+  padding: 0 5px;
+  margin: 5px 2px 5px 0;
+  flex-direction: column;
+}
+
+.chat_message_team{
+  display: flex;
+    width: 100%;
+    border-radius: 5px;
+    border-top-right-radius: 0px;
+    padding: 0 5px;
+    margin: 5px 0 5px 2px;
+    flex-direction: column;
+}
+
+.chat_message_text {
+  margin: 5px;
+  padding: 5px 0;
+  font-size: 10px;
+}
+
+.chat_player_name {
+  margin: 5px 0;
+  font-size: 12px;
+}
+
+.chat_name_float {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.chat_pin {
+  margin-top: 5px;
+  width: 0;
+  height: 0;
+  border-top-left-radius: 2px;
+}
+
+.chat_pin_colors_self {
+  border-bottom: 10px solid transparent;
+  border-right: 10px solid #b5ffe5;
+}
+
+.chat_pin_colors_team {
+  border-left: 10px solid #bdd5e7;
+  border-top: 10px solid transparent;
+  transform: rotate(90deg);
+}
+
+.chat_message_colors_default {
+  background: #eeeeee;
+  border: 0.5px solid #a49795;
+}
+
+.chat_message_colors_self {
+  background: #e8fff7;
+  border: 0.5px solid #b5ffe5;
+}
+
+.chat_message_colors_team {
+  background: #d1e5f4;
+  border: 0.5px solid #bdd5e7;
+}

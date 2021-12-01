@@ -16,7 +16,7 @@ const LinkInvite = ({ component: Component, ...props }) => {
   useEffect(() => {
     getInviteLink(
       `${window.location.origin}/${
-        window.localStorage.getItem('roomId') || roomId
+        JSON.parse(window.localStorage.getItem('roomId'))?.id || roomId
       }`,
     )
   }, [roomId])

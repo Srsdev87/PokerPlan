@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from 'react'
+import React, { useState, useRef, useEffect, useCallback } from 'react'
 import { HubConnectionBuilder } from '@microsoft/signalr'
 import config from '../assets/config_reader'
 
@@ -14,29 +14,47 @@ function ConnectionProvider(props) {
 
   latestChat.current = chat
 
-  useEffect(() => {
-    window.addEventListener('beforeunload', unload)
-    return () => {
-      window.removeEventListener('beforeunload', unload)
-    }
+  const unload = useCallback((e) => {
+    setChat([])
   }, [])
 
-  const unload = (e) => {
-    setChat([])
+  const createConnectionUrl = (userData) => {
+    const urlData =
+      playerdata &&
+      Object.keys(playerdata)?.length !== 0 &&
+      Object.getPrototypeOf(playerdata) === Object.prototype
+        ? { ...playerdata }
+        : {
+            player: userData?.playerName,
+            group: userData?.group,
+            data: userData?.data,
+            groupConnectionId: userData?.groupConnectionId,
+          }
+    return `${config.apiUrl}pokerhub?player=${urlData.player}&group=${urlData.group}&data=${urlData.data}&groupConnectionId=${urlData.groupConnectionId}`
   }
 
-  function connect() {
+  const connect = () => {
+    const reconnectionData = JSON.parse(window.localStorage.getItem('userData'))
+    let userData = {}
+    if (
+      reconnectionData &&
+      Object.keys(reconnectionData)?.length !== 0 &&
+      Object.getPrototypeOf(reconnectionData) === Object.prototype
+    ) {
+      reconnectionData.data = 'reconnected'
+      userData = {
+        ...reconnectionData,
+      }
+    }
+
     const connection = new HubConnectionBuilder()
-      .withUrl(
-        `${config.apiUrl}pokerhub?player=${playerdata.player}&group=${playerdata.group}&data=${playerdata.data}&groupConnectionId=${playerdata.groupConnectionId}`,
-      )
+      .withUrl(createConnectionUrl(userData))
       .withAutomaticReconnect()
       .build()
-
     return connection
   }
 
-  function startConnection() {
+  const startConnection = () => {
     return new Promise((resolve, reject) => {
       const connection = connect()
       setConnection(connection)
@@ -48,8 +66,27 @@ function ConnectionProvider(props) {
 
           connection.on('ReceiveMessage', (data) => {
             if (data?.isprivate) {
-              window.localStorage.setItem('roomId', data.message)
+              const player = data.player
+              window.localStorage.setItem(
+                'roomId',
+                JSON.stringify({
+                  id: data.player?.groupConnectionId,
+                  timestamp: new Date().toISOString(),
+                }),
+              )
+              window.localStorage.setItem(
+                'userData',
+                JSON.stringify({
+                  ...player,
+                }),
+              )
               setRoomId(data.message)
+              updatePlayerData({
+                player: player.playerName,
+                group: player.group,
+                data: player.data,
+                groupConnectionId: player.groupConnectionId,
+              })
             } else {
               const updatedChat = [...latestChat.current]
               updatedChat.push(data)
@@ -74,6 +111,10 @@ function ConnectionProvider(props) {
           reject()
         })
     })
+  }
+
+  const reconnect = () => {
+    startConnection()
   }
 
   const sendGroupMessage = async () => {
@@ -113,9 +154,28 @@ function ConnectionProvider(props) {
     }
   }
 
-  function updatePlayerData(player, group, data = '', groupConnectionId) {
-    setUserData({ player, group, data , groupConnectionId})
+  const updatePlayerData = async ({
+    player,
+    group,
+    data = '',
+    groupConnectionId,
+  }) => {
+    setUserData({ player, group, data, groupConnectionId })
   }
+
+  useEffect(() => {
+    window.addEventListener('beforeunload', unload)
+    return () => {
+      window.removeEventListener('beforeunload', unload)
+    }
+  }, [unload])
+
+  useEffect(() => {
+    const userData = JSON.parse(window.localStorage.getItem('roomId'))
+    if (userData) {
+      reconnect(userData.id)
+    }
+  }, [])
 
   const exports = {
     connection,

@@ -1,0 +1,16 @@
+.logout_container {
+  padding: 15px;
+}
+
+.logout_container > div {
+  margin: 10px;
+}
+
+.actions-control {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  justify-content: space-between;
+  align-items: center;
+  align-content: center;
+}

@@ -2,9 +2,11 @@ import React from 'react'
 
 import RoomMessage from './room_message'
 
+import './room.scss'
+
 const RoomWindow = (props) => {
   const chat = props.chat.map((m) =>
-  m.data && m.playerName ? (
+    m.data && m.playerName ? (
       <RoomMessage
         key={Date.now() * Math.random()}
         player={m.playerName}
@@ -14,7 +16,7 @@ const RoomWindow = (props) => {
       <RoomMessage key={Date.now() * Math.random()} data={m} />
     ),
   )
-  return <div>{chat}</div>
+  return <div className="chat_container">{Array.from(chat).reverse()}</div>
 }
 
 export default RoomWindow

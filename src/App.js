@@ -10,9 +10,7 @@ import RoomGuard from './router/guard'
 
 function App() {
   return (
-    <div
-      style={{ margin: '10% auto', display: 'flex', justifyContent: 'center' }}
-    >
+    <div>
       <AuthProvider>
         <ConnectionProvider>
           <Router>

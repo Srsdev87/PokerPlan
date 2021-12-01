@@ -5,8 +5,8 @@
 }
 
 * {
-    font-family: 'cardc-fontfamily';
-    font-weight: 500;
+  font-family: 'cardc-fontfamily';
+  font-weight: 500;
 }
 
 .card_container {
@@ -14,7 +14,7 @@
   border: 3px solid;
   border-radius: 10px;
   background-color: white;
-  position: absolute;
+  position: relative;
 }
 
 .icon_top {
@@ -52,27 +52,34 @@
 }
 
 .icons_cards_container {
-  margin: 0 auto;
-  position: absolute;
-  bottom: 38vh;
+  position: relative;
+  width: 100%;
+  height: -moz-fit-content;
+  height: fit-content;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  align-content: flex-end;
+  top: 10vh;
   .Q {
     transform: rotate(331deg);
-    left: 70px;
+    left: 130px;
   }
 
   .A {
     transform: rotate(347deg);
-    left: 100px;
+    left: 50px;
   }
 
   .K {
     transform: rotate(13deg);
-    left: 170px;
+    left: -100px;
   }
 
   .num {
     transform: rotate(1deg);
-    left: 135px;
+    left: -30px;
   }
 }
 
@@ -129,3 +136,4 @@
   font-weight: 500;
   font-family: 'cardc-fontfamily';
 }
+
