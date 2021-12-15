@@ -9,7 +9,7 @@ import CardContent from '@mui/material/CardContent'
 import Button from '@mui/material/Button'
 import { useNavigate } from 'react-router-dom'
 
-const RoomInput = (props) => {
+const RoomConnection = (props) => {
   const { startConnection } = useContext()
   const [isGroupUpdated, setGroupUpdate] = useState(false)
   const { login } = useAuth()
@@ -36,6 +36,10 @@ const RoomInput = (props) => {
     return isNewRoomMate
   }
 
+  const capitalize = (string) => {
+    return string.charAt(0).toUpperCase() + string.slice(1)
+  }
+
   return (
     <Card variant="outlined" className="card_outer_border">
       <CardContent>
@@ -44,7 +48,8 @@ const RoomInput = (props) => {
           id="standard-basic"
           label="Player"
           variant="standard"
-          value={props.player}
+          value={capitalize(props.player)}
+          autoComplete="off"
           onChange={props.onPlayerUpdate}
         />
 
@@ -54,7 +59,8 @@ const RoomInput = (props) => {
             id="standard-basic"
             label="Group"
             variant="standard"
-            value={props.group}
+            value={capitalize(props.group)}
+            autoComplete="off"
             onChange={props.onGroupUpdate}
           />
         ) : null}
@@ -69,4 +75,4 @@ const RoomInput = (props) => {
   )
 }
 
-export default RoomInput
+export default RoomConnection

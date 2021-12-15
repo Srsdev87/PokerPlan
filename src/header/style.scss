@@ -7,8 +7,44 @@
   justify-content: space-around;
   flex-wrap: nowrap;
   box-shadow: 0px 0px 6px #000;
+  background-color: #ffffff;
 }
 
 .buttons_container {
   display: contents;
+}
+
+.icon_margin {
+  margin-right: 5px;
+}
+
+.player_icon {
+  background-image: url(../assets/player_icons/1.svg);
+  width: 48px;
+  height: 48px;
+  margin-right: 5px;
+}
+
+.group_icon {
+  background-image: url(../assets/team_icons/1.svg);
+  width: 48px;
+  height: 48px;
+  margin-right: 5px;
+}
+
+.player_container {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  align-content: center;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.chat_room_button {
+  margin: 10px 0;
+  width: 30px;
+  height: 30px;
+  cursor: pointer;
+  background-image: url(../assets/icons/chat-room.svg);
 }

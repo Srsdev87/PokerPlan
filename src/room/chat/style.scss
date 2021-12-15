@@ -1,0 +1,27 @@
+.input_textarea_container {
+  position: relative;
+  width: 100%;
+  background-color: #495b64;
+  color: #ece5dd;
+  border: none;
+  border-radius: 20px;
+}
+
+.chat_replay_message {
+  padding: 5px;
+  width: 10vh;
+  margin: 5px;
+  border-radius: 15px;
+  z-index: 100;
+  font-size: 10px;
+  white-space: pre-wrap;
+  background-color: #3a484f;
+  border: none;
+  // display: none;
+}
+
+.chat_replay_message > p {
+  margin: 0;
+  padding: 5px;
+  white-space: pre-wrap;
+}

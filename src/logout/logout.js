@@ -2,9 +2,9 @@ import * as React from 'react'
 import './style.scss'
 import Button from '@mui/material/Button'
 
-
 const Disconnect = (props) => {
   const handleYesClick = () => {
+    window.localStorage.clear()
     window.location.replace(window.location.origin)
   }
 

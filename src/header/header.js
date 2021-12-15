@@ -5,6 +5,7 @@ import LinkInvite from '../invite_friends/link_invite'
 import Button from '@mui/material/Button'
 import SettingsDialog from '../shared/dialog'
 import LogoutIcon from '@mui/icons-material/Logout'
+import SettingsIcon from '@mui/icons-material/Settings'
 
 const Header = (props) => {
   const [open, setOpen] = useState(false)
@@ -29,8 +30,14 @@ const Header = (props) => {
 
   return (
     <div className="header_container">
-      <div>{props.player}</div>
-      <div>{props.group}</div>
+      <div className="player_container">
+        <div className="player_icon"></div>
+        {props.player}
+      </div>
+      <div className="player_container">
+        <div className="group_icon"></div>
+        {props.group}
+      </div>
       <LinkInvite />
       <div className="buttons_container">
         <div>
@@ -39,7 +46,7 @@ const Header = (props) => {
             onClick={handleClickOpen}
             data={'settings'}
           >
-            Settings
+            <SettingsIcon className="icon_margin" /> Settings
           </Button>
         </div>
         <div>
@@ -48,7 +55,7 @@ const Header = (props) => {
             onClick={handleClickOpen}
             data={'disconnect'}
           >
-            <LogoutIcon /> Log out
+            <LogoutIcon className="icon_margin" /> Log out
           </Button>
         </div>
 

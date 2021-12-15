@@ -1,15 +1,11 @@
 import React, { useState, useEffect } from 'react'
 import './room.scss'
-import TextField from '@mui/material/TextField'
-import IconButton from '@mui/material/IconButton'
 import { useContext } from '../context/room_connection_context'
-import RoomWindow from '../room/room_window'
-import SendIcon from '@mui/icons-material/Send'
+import RoomChatWindow from './chat/room_chat_window'
 import Header from '../header/header'
 
 const Room = (props) => {
-  const { updatePlayerData, sendGroupMessage, playerdata, chat } = useContext()
-  const [data, setMessage] = useState('')
+  const { playerdata, chat } = useContext()
   const [userStoredData, setUserStoredData] = useState({})
 
   useEffect(() => {
@@ -22,50 +18,18 @@ const Room = (props) => {
     }
   }, [userStoredData])
 
-  const onMessageUpdate = (e) => {
-    setMessage(e.target.value)
-    updatePlayerData({
-      player: playerdata.player,
-      group: playerdata.group,
-      data: e.target.value,
-    })
-  }
-
-  const onSubmit = (e) => {
-    e.preventDefault()
-    sendGroupMessage()
-    setMessage('')
-  }
-
   return (
     <div className="room_container_main">
       <Header
         player={userStoredData?.player || playerdata.player}
         group={userStoredData?.group || playerdata.group}
       />
-
-      <div className="message_container">
-        <div className="message_input">
-          <TextField
-            className="textfield"
-            id="standard-basic"
-            label="Message"
-            variant="standard"
-            value={data}
-            onChange={onMessageUpdate}
-            onKeyPress={(e) => {
-              if (e.code === 'Enter') {
-                onSubmit(e)
-              }
-            }}
-          />
-
-          <IconButton size="small" onClick={onSubmit}>
-            <SendIcon />
-          </IconButton>
+      <div className="room_body_container">
+        <div className="chat_main_container">
+          <RoomChatWindow chat={chat} />
         </div>
-
-        <RoomWindow chat={chat} />
+        <div className="playground_container">playground</div>
+        <div className="votes_history">votes history</div>
       </div>
     </div>
   )

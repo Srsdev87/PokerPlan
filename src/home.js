@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import './App.css'
 import { useEffect } from 'react/cjs/react.development'
 import { useContext } from './context/room_connection_context'
-import RoomInput from './room/room_input'
+import RoomConnection from './room/room_connection'
 
 import { IconCards, IconsRandomApear } from './shared/icons'
 
@@ -28,6 +28,7 @@ const Home = (props) => {
     updatePlayerData({ player, group: e.target.value, data, groupConnectionId })
   }
 
+  //is function relevant??
   const onDataUpdate = (eData) => {
     setData(eData)
     updatePlayerData({ player, group, data: eData, groupConnectionId })
@@ -41,7 +42,7 @@ const Home = (props) => {
   return (
     <div className="home_login_main_container">
       <div>
-        <RoomInput
+        <RoomConnection
           sendGroupMessage={sendGroupMessage}
           onPlayerUpdate={onPlayerUpdate}
           onGroupUpdate={onGroupUpdate}

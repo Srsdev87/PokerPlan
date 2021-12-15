@@ -28,9 +28,9 @@ const LinkInvite = ({ component: Component, ...props }) => {
   return (
     <div className="invite_container">
       <TextField
-        className="textfield"
+        className="invite_link"
         id="outlined-read-only-input"
-        label="Invite"
+        label="Invite Players"
         inputProps={inputProps}
         InputProps={{
           readOnly: true,
