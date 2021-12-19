@@ -10,9 +10,9 @@ const RoomChatWindow = (props) => {
   const [data, setMessage] = useState('')
   const [isExpanded, setChatPosition] = useState(true)
   const [currentChatMessageCount, setCurrentChatMessageCount] = useState(0)
-  const [linebreaksCounter, setLinebreakCount] = useState([])
   const [replayMessage, setReplayMessage] = useState('')
   const textAreaRef = React.createRef()
+  const chatContainerRef = React.createRef()
 
   const ch = props.chat.map((m, i, row) =>
     m.data && m.playerName ? (
@@ -22,7 +22,8 @@ const RoomChatWindow = (props) => {
         data={m.data}
         setMessage={setMessage}
         setReplayMessage={setReplayMessage}
-        replayMessage={i + 1 === row.length ? replayMessage : null}
+        chatContainerRef={chatContainerRef}
+        msgId={i}
       />
     ) : (
       <RoomChatMessage
@@ -30,7 +31,8 @@ const RoomChatWindow = (props) => {
         data={m}
         setMessage={setMessage}
         setReplayMessage={setReplayMessage}
-        replayMessage={replayMessage}
+        chatContainerRef={chatContainerRef}
+        msgId={i}
       />
     ),
   )
@@ -43,20 +45,11 @@ const RoomChatWindow = (props) => {
 
   const onMessageUpdate = (e) => {
     setMessage(e.target.value)
-    calculateLinebreaks()
     updatePlayerData({
       player: playerdata.player,
       group: playerdata.group,
-      data: e.target.value,
+      data: JSON.stringify({message:e.target.value, replayMsg: replayMessage}),
     })
-  }
-
-  const calculateLinebreaks = () => {
-    const currentLineHeight = parseInt(textAreaRef.current.style.height, 10)
-    if (!linebreaksCounter.includes(currentLineHeight)) {
-      setLinebreakCount((lines) => [...lines, currentLineHeight])
-      console.log('line breaks', linebreaksCounter.length)
-    }
   }
 
   const onSubmit = (e) => {
@@ -65,6 +58,7 @@ const RoomChatWindow = (props) => {
       sendGroupMessage()
     }
     setMessage('')
+    setReplayMessage('')
   }
 
   const toggleChat = () => {
@@ -96,7 +90,7 @@ const RoomChatWindow = (props) => {
           textAreaRef={textAreaRef}
           replayMessage={replayMessage}
         />
-        <div className="chat_container">{Array.from(ch).reverse()}</div>
+        <div className="chat_container" ref={chatContainerRef}>{Array.from(ch).reverse()}</div>
       </div>
       <div className="chat_room_button" onClick={toggleChat}>
         {showBadge() ? (

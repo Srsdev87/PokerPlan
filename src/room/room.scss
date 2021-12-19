@@ -212,11 +212,14 @@
   flex-wrap: nowrap;
   align-items: baseline;
   justify-content: space-between;
-  margin-top: 5px;
 }
 
 .chat_options_icon {
   visibility: hidden;
+}
+
+.icon_style{
+  margin-top: 5px;
 }
 
 .chat_popup_option {

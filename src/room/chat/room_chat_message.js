@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import '../room.scss'
 import MoreVertIcon from '@mui/icons-material/MoreVert'
 import Tooltip from '@mui/material/Tooltip'
@@ -10,6 +10,7 @@ import { useContext } from '../../context/room_connection_context'
 const RoomChatMessage = (props) => {
   const [open, setOpen] = React.useState(false)
   const [currentMessage, setCurrentMessage] = useState('')
+  const [replayMessage, setReplayMessage] = useState('')
   const { playerdata } = useContext()
   const chatSettingsRef = React.createRef()
   let chatIdentity = 'default'
@@ -31,7 +32,6 @@ const RoomChatMessage = (props) => {
 
   const handleTooltipOpen = () => {
     setOpen(true)
-    setCurrentMessage(props.data)
   }
 
   const showChatSettings = () => {
@@ -56,6 +56,30 @@ const RoomChatMessage = (props) => {
     props.setReplayMessage(currentMessage)
   }
 
+  const messageParser = (data) => {
+    try {
+      return JSON.parse(data)
+    } catch (err) {
+      return data
+    }
+  }
+
+  const selectReplayedMessage = (e) => {
+    const refContainer = props.chatContainerRef
+    const foundReplayMessage = Array.from(refContainer.current.children).find(
+      (child) => child.querySelector('P').innerText === e.target.innerText,
+    )
+    if (foundReplayMessage) {
+      foundReplayMessage.scrollIntoView()
+    }
+  }
+
+  useEffect(() => {
+    const data = messageParser(props.data)
+    setReplayMessage(data?.replayMsg)
+    setCurrentMessage(data.message || data)
+  }, [props.data])
+
   return (
     <div className={`chat_message_container_${chatIdentity}`}>
       {props.player ? (
@@ -67,8 +91,15 @@ const RoomChatMessage = (props) => {
         {props.player && props.player !== playerdata.player ? (
           <p className={`chat_player_name ${nameFloat}`}>{props.player}</p>
         ) : null}
-          {  !!props.replayMessage ? <div>test</div> : null}
 
+        {!!replayMessage ? (
+          <div
+            className={`chat_replay_message_output_${chatIdentity}`}
+            onClick={selectReplayedMessage}
+          >
+            <p ref={props.replayRef}>{replayMessage}</p>
+          </div>
+        ) : null}
 
         <div
           className="chat_inner_text"
@@ -78,7 +109,7 @@ const RoomChatMessage = (props) => {
           <p
             className={`chat_message_text chat_message_text_color_${chatIdentity}`}
           >
-            {props.data}
+            {currentMessage}
           </p>
           {chatIdentity !== 'default' ? (
             <ClickAwayListener onClickAway={handleTooltipClose}>
@@ -109,7 +140,7 @@ const RoomChatMessage = (props) => {
                   ref={chatSettingsRef}
                   onMouseEnter={showChatSettings}
                   onClick={handleTooltipOpen}
-                  className="chat_options_icon"
+                  className="icon_style chat_options_icon"
                 />
               </Tooltip>
             </ClickAwayListener>

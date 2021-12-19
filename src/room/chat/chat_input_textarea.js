@@ -16,7 +16,7 @@ const InputTextArea = (props) => {
 
     setcalls((calls) => [...calls, e])
 
-    if (calls.length === 1) {
+    if (calls.length === 1 && e.target.value.trim() !== '') {
       clearTimeout(time)
       props.onSubmit(e)
     }
@@ -24,7 +24,7 @@ const InputTextArea = (props) => {
 
   const replayMessage = () => {
     return (
-      <div className="chat_replay_message">
+      <div className="chat_replay_message_input">
         <p ref={props.replayRef}>{props.replayMessage}</p>
       </div>
     )
