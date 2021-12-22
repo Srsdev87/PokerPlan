@@ -25,7 +25,7 @@ const InputTextArea = (props) => {
   const replayMessage = () => {
     return (
       <div className="chat_replay_message_input">
-        <p ref={props.replayRef}>{props.replayMessage}</p>
+        <p ref={props.replayRef}>{props.replayMessage?.message}</p>
       </div>
     )
   }
@@ -33,7 +33,7 @@ const InputTextArea = (props) => {
   return (
     <div className="message_input">
       <div className="input_textarea_container">
-        {!!props.replayMessage ? replayMessage() : null}
+        {!!props.replayMessage?.message ? replayMessage() : null}
 
         <TextareaAutosize
           maxRows={6}

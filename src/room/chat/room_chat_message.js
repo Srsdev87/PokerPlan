@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import '../room.scss'
+import { v4 as uuidv4 } from 'uuid'
 import MoreVertIcon from '@mui/icons-material/MoreVert'
 import Tooltip from '@mui/material/Tooltip'
 import ClickAwayListener from '@mui/material/ClickAwayListener'
@@ -10,7 +11,7 @@ import { useContext } from '../../context/room_connection_context'
 const RoomChatMessage = (props) => {
   const [open, setOpen] = React.useState(false)
   const [currentMessage, setCurrentMessage] = useState('')
-  const [replayMessage, setReplayMessage] = useState('')
+  const [replayMessage, setReplayMessage] = useState({})
   const { playerdata } = useContext()
   const chatSettingsRef = React.createRef()
   let chatIdentity = 'default'
@@ -53,7 +54,13 @@ const RoomChatMessage = (props) => {
   }
 
   const replayAdd = () => {
-    props.setReplayMessage(currentMessage)
+    const uuid = uuidv4()
+    setReplayOriginalMessageConnection(uuid)
+    props.setReplayMessage({ message: currentMessage, id: uuid })
+  }
+
+  const setReplayOriginalMessageConnection = (uuid) => {
+    props.setContainersReplayIds((ids) => [...ids, { id: props.msgId, uuid }])
   }
 
   const messageParser = (data) => {
@@ -64,24 +71,49 @@ const RoomChatMessage = (props) => {
     }
   }
 
-  const selectReplayedMessage = (e) => {
+  const selectReplayedMessage = (evt) => {
     const refContainer = props.chatContainerRef
     const foundReplayMessage = Array.from(refContainer.current.children).find(
-      (child) => child.querySelector('P').innerText === e.target.innerText,
+      (child) => child.id === evt.currentTarget.getAttribute('uuid'),
     )
+
     if (foundReplayMessage) {
-      foundReplayMessage.scrollIntoView()
+      foundReplayMessage.scrollIntoView({
+        behavior: 'smooth',
+        block: 'end',
+        inline: 'nearest',
+      })
+      foundReplayMessage.classList.add('replay_blink')
+      setTimeout(() => {
+        foundReplayMessage.classList.remove('replay_blink')
+      }, 2100)
     }
+  }
+
+  const generateReplayMessage = () => {
+    if (!replayMessage.uuid) return null
+
+    const replayElement = (
+      <div
+        className={`chat_replay_message_output_${chatIdentity}`}
+        onClick={selectReplayedMessage}
+        uuid={replayMessage?.uuid}
+      >
+        <p ref={props.replayRef}>{replayMessage.replayMsg}</p>
+      </div>
+    )
+
+    return replayElement
   }
 
   useEffect(() => {
     const data = messageParser(props.data)
-    setReplayMessage(data?.replayMsg)
+    if (typeof data === 'object') setReplayMessage(data)
     setCurrentMessage(data.message || data)
   }, [props.data])
 
   return (
-    <div className={`chat_message_container_${chatIdentity}`}>
+    <div className={`chat_message_container_${chatIdentity}`} id={props.id}>
       {props.player ? (
         <div className={`chat_pin chat_pin_colors_${chatIdentity}`}></div>
       ) : null}
@@ -92,14 +124,7 @@ const RoomChatMessage = (props) => {
           <p className={`chat_player_name ${nameFloat}`}>{props.player}</p>
         ) : null}
 
-        {!!replayMessage ? (
-          <div
-            className={`chat_replay_message_output_${chatIdentity}`}
-            onClick={selectReplayedMessage}
-          >
-            <p ref={props.replayRef}>{replayMessage}</p>
-          </div>
-        ) : null}
+        {!!replayMessage.replayMsg ? generateReplayMessage() : null}
 
         <div
           className="chat_inner_text"
