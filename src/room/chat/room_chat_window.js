@@ -34,12 +34,15 @@ const RoomChatWindow = (props) => {
             .find((repid) => repid.id === i)?.uuid
         }
         replayMessage={replayMessage}
+        time={m.time}
+        replayId={m.replayId}
       />
     ) : (
       <RoomChatMessage
         key={Date.now() * Math.random()}
         data={m}
         setMessage={setMessage}
+        time={m.time}
       />
     ),
   )

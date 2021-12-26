@@ -21,8 +21,14 @@ const LinkInvite = ({ component: Component, ...props }) => {
     )
   }, [roomId])
 
-  const copyInviteLink = () => {
-    return navigator.clipboard.writeText(inviteLink)
+  const copyInviteLink = async () => {
+    try {
+      const queryOpts = { name: 'clipboard-read', allowWithoutGesture: false };
+       await navigator.permissions.query(queryOpts);
+      return navigator.clipboard.writeText(inviteLink)
+    } catch (err) {
+      return ''
+    }
   }
 
   return (

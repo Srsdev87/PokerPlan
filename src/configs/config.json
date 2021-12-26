@@ -4,6 +4,6 @@
       "apiUrl": "https://localhost:85/"
   },
   "dev": {
-    "apiUrl": "https://localhost:44370/"
+    "apiUrl": "http://localhost:46886/"
   }
 }

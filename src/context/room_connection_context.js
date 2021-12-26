@@ -88,16 +88,12 @@ function ConnectionProvider(props) {
                 groupConnectionId: player.groupConnectionId,
               })
             } else {
-              const updatedChat = [...latestChat.current]
-              updatedChat.push(data)
-              setChat(updatedChat)
+              updateChat(data)
             }
           })
 
           connection.on('SendAsync', (data) => {
-            const updatedChat = [...latestChat.current]
-            updatedChat.push(data)
-            setChat(updatedChat)
+            updateChat(data)
           })
 
           connection.onclose((e) => {
@@ -111,6 +107,29 @@ function ConnectionProvider(props) {
           reject()
         })
     })
+  }
+
+  const updateChat = (data) => {
+    if (typeof data === 'object') {
+      const id = latestChat.current.length
+      const replayId = null
+      const time = getLocalTime()
+      data = { ...data, id, replayId, time }
+    } else {
+      data = {
+        message: data,
+        time: getLocalTime(),
+      }
+    }
+    const updatedChat = [...latestChat.current]
+    updatedChat.push(data)
+    setChat(updatedChat)
+  }
+
+  const getLocalTime = () => {
+    const currentTime = new Date().toLocaleTimeString()
+    const currentFormatedTime = currentTime.split(':')
+    return `${currentFormatedTime[0]}:${currentFormatedTime[1]}`
   }
 
   const reconnect = () => {
@@ -182,6 +201,7 @@ function ConnectionProvider(props) {
     chat,
     playerdata,
     roomId,
+    updateChat,
     sendGroupMessage,
     startConnection,
     updatePlayerData,
